@@ -1,6 +1,5 @@
 import cv2
 from ultralytics import YOLO  # Make sure you have the right version installed
-import numpy as np
 
 class LicensePlateDetector:
     def __init__(self):
