@@ -5,6 +5,28 @@ import matplotlib.pyplot as plt
 from io import BytesIO
 from PIL import Image
 
+class CNN:
+    def __init__(self):
+        self.model = load_model('./saved_model/license_plate_model.h5')
+    
+    def fix_dimension(self,img):
+        new_img = np.zeros((28,28,3))
+        for i in range(3):
+            new_img[:,:,i] = img
+        return new_img
+
+    def predict(self, chars):
+        output = []
+        for i,ch in enumerate(chars): #iterating over the characters
+            img_ = cv2.resize(ch, (28,28))
+            img = self.fix_dimension(img_)
+            img = img.reshape(1,28,28,3) #preparing image for the model
+            y_probs = self.model.predict(img, verbose=0)[0] #predicting the class
+            y_ = np.argmax(y_probs)
+            character = self.dic[y_] #
+            output.append(character) #storing the result in a list
+
+        return ''.join(output)
 
 class LiscencePlateExtractor:
 
@@ -153,5 +175,5 @@ class LiscencePlateExtractor:
 
         binary_img = self.process(plate)
         sorted_chars = self.detect_chars(binary_img)
-        
+
         return sorted_chars, self.track
