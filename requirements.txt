@@ -8,3 +8,7 @@ streamlit==1.44.1
 pillow==11.0.0
 ultralytics
 matplotlib
+matplotlib
+PyQt5==5.15.11
+numpy==1.26.4
+
